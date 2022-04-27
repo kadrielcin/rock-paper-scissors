@@ -1,21 +1,21 @@
 const selectionButtons = document.querySelectorAll("[data-selection]");
-const finalColumn = document.querySelector("[data-final-column[");
+const finalColumn = document.querySelector("[data-final-column]");
 const computerScoreSpan = document.querySelector("[data-computer-score]");
-const yourScoreSpan = document.querySelektor("[data-your-score]");
+const yourScoreSpan = document.querySelector("[data-your-score]");
 const SELECTIONS = [
   {
     name: "rock",
-    emoloji: "✊",
-    beats: "scissorrs",
+    emoji: "✊",
+    beats: "scissors",
   },
   {
     name: "paper",
-    emoloji: "✋",
+    emoji: "✋",
     beats: "rock",
   },
   {
     name: "scissors",
-    emoloji: "✌",
+    emoji: "✌",
     beats: "paper",
   },
 ];
@@ -26,33 +26,34 @@ selectionButtons.forEach((selectionButton) => {
     const selection = SELECTIONS.find(
       (selection) => selection.name === selectionName
     );
-    makeSelection(selectionName);
+    makeSelection(selection);
   });
 });
 
 function makeSelection(selection) {
-  const computerSelection = (random = randomSelection());
-  const yourwinner = isWinner(selection, computerSelection);
+  const computerSelection = randomSelection();
+  const yourWinner = isWinner(selection, computerSelection);
   const computerWinner = isWinner(computerSelection, selection);
 
-  addSelectionResult(computerSelection, selection);
+  addSelectionResult(computerSelection, computerWinner);
   addSelectionResult(selection, yourWinner);
 
-  if (yourWinner) increamentScore(yourScoreSpan);
-  if (computerWinner) increamentScore(computerScoreSpan);
+  if (yourWinner) incrementScore(yourScoreSpan);
+  if (computerWinner) incrementScore(computerScoreSpan);
 }
 
-function increamentScore(scoreSpan) {
+function incrementScore(scoreSpan) {
   scoreSpan.innerText = parseInt(scoreSpan.innerText) + 1;
 }
 
 function addSelectionResult(selection, winner) {
   const div = document.createElement("div");
-  div.innerText = selection.emoloji;
+  div.innerText = selection.emoji;
   div.classList.add("result-selection");
   if (winner) div.classList.add("winner");
   finalColumn.after(div);
 }
+
 function isWinner(selection, opponentSelection) {
   return selection.beats === opponentSelection.name;
 }
